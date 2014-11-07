@@ -4,6 +4,9 @@
  */
 package servidor;
 
+import Controladores.Controlador;
+import Interfaces.EscuchadorEvento;
+import Eventos.MiEvento;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -64,7 +67,7 @@ private ServerSocket ServidorSocket=null;
 
     }
     
-    static void enviar(String cliente, String dato) throws IOException{
+    public static void enviar(String cliente, String dato) throws IOException{
         if(clientes.containsKey(cliente)){
             Socket socket = clientes.get(cliente);
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());

@@ -4,6 +4,8 @@
  */
 package servidor;
 
+import Protocolo.Paquete;
+import Eventos.MiEvento;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
