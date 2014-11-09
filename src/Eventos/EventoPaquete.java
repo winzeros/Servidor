@@ -11,11 +11,11 @@ import Protocolo.Paquete;
  *
  * @author ERWIN
  */
-public class MiEvento extends EventObject{
+public class EventoPaquete extends EventObject{
    public Paquete Dato; 
 
    //solo para resivir un paquete simple 
-   public MiEvento(Object source,Paquete p) {
+   public EventoPaquete(Object source,Paquete p) {
         super(source);
         Dato=p;
     }   

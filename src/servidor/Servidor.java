@@ -4,9 +4,12 @@
  */
 package servidor;
 
-import Controladores.Controlador;
-import Interfaces.EscuchadorEvento;
-import Eventos.MiEvento;
+import Controladores.ControladorConexion;
+import Controladores.ControladorPaquete;
+import Formularios.ServidorSocket;
+import Util.ListaClientes;
+import Util.ListaEscuchadoresConexionDesconexion;
+import Util.ListaEscuchadoresPaquete;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -22,11 +25,116 @@ import javax.swing.event.EventListenerList;
  *
  * @author ERWIN
  */
-public class Servidor extends Thread{
+public class Servidor {
+
+    private ServerSocket servidor;
+    private int puerto;
+    private ReceptorConexion conexion;
+    private Despachador despachador;
+    public ServidorSocket server;
+
+    private ControladorPaquete controlEscuchador;
+    private ControladorConexion controlConexion;
+    //private ControlDesconexion controlDesconexion;
+
+    //private ControlDatos controlDatos;
+
+    public Servidor(int puerto) {
+        this.puerto = puerto;
+        try {
+            servidor = new ServerSocket(puerto);
+
+            conexion = new ReceptorConexion(this);
+           despachador = new Despachador();
+            controlEscuchador = new ControladorPaquete(this);
+
+            controlConexion = new ControladorConexion();
+            
+
+            ListaEscuchadoresPaquete.addReceiveListener(controlEscuchador);
+            ListaEscuchadoresConexionDesconexion.addConexiones(controlConexion);
+           
+
+            System.out.println("Iniciando el servidor");
+
+        } catch (IOException ex) {
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Servidor(int puerto,ServidorSocket serv) {
+        this.puerto = puerto;
+        try {
+            servidor = new ServerSocket(puerto);
+            this.server = serv;//Interfaz grafica cmo parametro
+            
+            conexion = new ReceptorConexion(this);
+            
+            despachador = new Despachador();
+            
+            controlEscuchador = new ControladorPaquete(this);
+            controlConexion = new ControladorConexion();
+            
+
+            ListaEscuchadoresPaquete.addReceiveListener(controlEscuchador);
+            ListaEscuchadoresConexionDesconexion.addConexiones(controlConexion);
+            
+
+            
+            System.out.println("Iniciando el servidor"+"\n");
+            
+
+        } catch (IOException ex) {
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void iniciarServidor() {
+        conexion.start();
+    }
+
+    public void Mostrar() {
+        ListaClientes.MostrarClientes();
+    }
+
+    public ServerSocket getServidor() {
+        return servidor;
+    }
+
+    public static void main(String[] args) {
+        Servidor xx = new Servidor(9999);
+        xx.iniciarServidor();
+
+    }
+
+    public void enviarN(String nick, String text0) {
+        Despachador.enviarN(nick, text0);
+    }
+
+    public void enviarTodos(String text) {
+        try {
+            Despachador.enviarTodos(text);
+        } catch (IOException ex) {
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void enviarFichero(String path,String nick){
+        Despachador.enviaFichero(path, nick);
+    }
+
+}
+
+
+
+
+
+
+
+/*extends Thread{
 private ServerSocket ServidorSocket=null;
     static EventListenerList ListaEscuchadores=new EventListenerList();
     static HashMap<String, Socket> clientes;
-    private Controlador controlador=null;
+    private ControladorPaquete controlador=null;
      Socket clienteSocket=null;
     
     public Servidor(int Puerto) 
@@ -35,7 +143,7 @@ private ServerSocket ServidorSocket=null;
         {
             ServidorSocket = new ServerSocket(Puerto);
             clientes = new HashMap<String, Socket>();
-            controlador = new Controlador();
+            controlador = new ControladorPaquete();
             this.adicionarEscuchador(controlador);
         }
         catch(IOException ioe)
@@ -118,4 +226,4 @@ private ServerSocket ServidorSocket=null;
         
     }   
    
-}
+}*/
