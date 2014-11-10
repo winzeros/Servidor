@@ -6,10 +6,12 @@ package servidor;
 
 import Controladores.ControladorConexion;
 import Controladores.ControladorPaquete;
+import Controladores.ControladorPaqueteBD;
 import Formularios.ServidorSocket;
 import Util.ListaClientes;
 import Util.ListaEscuchadoresConexionDesconexion;
 import Util.ListaEscuchadoresPaquete;
+import Util.*;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -35,7 +37,7 @@ public class Servidor {
 
     private ControladorPaquete controlEscuchador;
     private ControladorConexion controlConexion;
-    //private ControlDesconexion controlDesconexion;
+    private ControladorPaqueteBD controlEscuchadorBD;
 
     //private ControlDatos controlDatos;
 
@@ -45,14 +47,16 @@ public class Servidor {
             servidor = new ServerSocket(puerto);
 
             conexion = new ReceptorConexion(this);
-           despachador = new Despachador();
-            controlEscuchador = new ControladorPaquete(this);
-
-            controlConexion = new ControladorConexion();
+            despachador = new Despachador();
             
+            controlEscuchador = new ControladorPaquete(this);
+            controlConexion = new ControladorConexion();
+            controlEscuchadorBD=new ControladorPaqueteBD();
+                
 
             ListaEscuchadoresPaquete.addReceiveListener(controlEscuchador);
             ListaEscuchadoresConexionDesconexion.addConexiones(controlConexion);
+            ListaEscuchadoresMsjBD.addReceiveListener(controlEscuchadorBD);
            
 
             System.out.println("Iniciando el servidor");
@@ -74,10 +78,12 @@ public class Servidor {
             
             controlEscuchador = new ControladorPaquete(this);
             controlConexion = new ControladorConexion();
+            controlEscuchadorBD=new ControladorPaqueteBD();
             
 
             ListaEscuchadoresPaquete.addReceiveListener(controlEscuchador);
             ListaEscuchadoresConexionDesconexion.addConexiones(controlConexion);
+             ListaEscuchadoresMsjBD.addReceiveListener(controlEscuchadorBD);
             
 
             

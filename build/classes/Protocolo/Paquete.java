@@ -4,33 +4,99 @@
  */
 package Protocolo;
 
+import java.io.Serializable;
+import java.util.StringTokenizer;
+
 /**
  *
  * @author ERWIN
  */
-public class Paquete {
-    public String IP;
-    public String Dato;
+public class Paquete implements Serializable {
 
-    public Paquete(String IP,String Dato) {
-        this.Dato = Dato;
-        this.IP=IP;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -5155364264919600611L;
+    /**
+     *
+     */
+
+    private String Origen;
+    private String Destino;
+    private Integer instruccion;
+    private String usuario="";
+    private String Data;
+
+    public Paquete(String IPDestino, String origen, int instruccion, String data) {
+        this.Destino = IPDestino;
+        this.Data = data;
+        this.instruccion = instruccion;
+        this.Origen = origen;
+        
     }
 
-    public String getDato() {
-        return Dato;
+    public Paquete(String IPDestino, String data) {
+        this.Destino = IPDestino;
+        this.Data = data;
     }
 
-    public void setDato(String Dato) {
-        this.Dato = Dato;
-    }
-    
-    public String getIP() {
-        return IP;
+    public void setDestino(String nDes) {
+        this.setDestino(nDes);
     }
 
-    public void setIP(String IP) {
-        this.IP = IP;
+    public String getDestino() {
+        return Destino;
     }
-      
+
+    public void setOrigen(String Origen) {
+        this.Origen = Origen;
+    }
+
+    public void setInstruccion(int instruccion) {
+        this.instruccion = instruccion;
+    }
+
+    public int getInstruccion() {
+        return instruccion;
+    }
+
+    public String getOrigen() {
+        return Origen;
+    }
+
+    public static void main(String[] args) {
+        String S = "hora&de&avent&ura";
+
+        StringTokenizer st = new StringTokenizer(S, "&");
+
+        while (st.hasMoreTokens()) {
+            System.out.println(st.nextToken());
+        }
+
+        String SS = ":hora:de:avent:ura";
+        String[] neo = SS.split(":");
+    }
+
+    public String getData() {
+        return Data;
+    }
+
+    public void setData(String data) {
+        Data = data;
+    }
+
+    /**
+     * @return the usuario
+     */
+    public String getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
 }

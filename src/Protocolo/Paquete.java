@@ -24,7 +24,7 @@ public class Paquete implements Serializable {
     private String Origen;
     private String Destino;
     private Integer instruccion;
-    //  private byte tipo;
+    private String usuario="";
     private String Data;
 
     public Paquete(String IPDestino, String origen, int instruccion, String data) {
@@ -32,6 +32,7 @@ public class Paquete implements Serializable {
         this.Data = data;
         this.instruccion = instruccion;
         this.Origen = origen;
+        
     }
 
     public Paquete(String IPDestino, String data) {
@@ -82,6 +83,20 @@ public class Paquete implements Serializable {
 
     public void setData(String data) {
         Data = data;
+    }
+
+    /**
+     * @return the usuario
+     */
+    public String getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
 }
