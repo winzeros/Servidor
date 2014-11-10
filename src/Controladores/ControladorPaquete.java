@@ -60,7 +60,7 @@ public class ControladorPaquete implements EscuchadorEventoPaquete {
                  ListaClientes.RegistrarUsuario(pk.getOrigen(), us.getNombreUsuario());
                  
                  List<Object> lista = new ArrayList<Object>();
-                 lista.add(us);
+                 lista.add(gson.toJson(us));
                  
                  MensajeBD msjbd=new MensajeBD(pk.getOrigen(),"ninguno", getNombreClase(us), lista, "guardar");
                  ListaEscuchadoresBD.DispararOnMensajeBDGuardar(new EventoBD(this, msjbd));
@@ -116,10 +116,14 @@ public class ControladorPaquete implements EscuchadorEventoPaquete {
                  List<Object> lista = new ArrayList<Object>();                 
                  lista=us;
                  
-                 MensajeBD msjbd=new MensajeBD(pk.getOrigen(),pk.getUsuario(), getNombreClase(us), lista, "guardar");
+                 String clase=lista.get(0).toString();
+                 
+                 lista.remove(0);
+                 
+                 MensajeBD msjbd=new MensajeBD(pk.getOrigen(),pk.getUsuario(), clase, lista, "guardar");
                  ListaEscuchadoresBD.DispararOnMensajeBDGuardar(new EventoBD(this, msjbd));
                  
-                 System.out.println("SE GUARDO CORRECTAMENTE LAS TABLAS..");
+                 System.out.println("SE ESTAN GUARDANDO LAS TABLAS..");
                  
              } catch (Exception ex) {
                  Logger.getLogger(ControladorPaquete.class.getName()).log(Level.SEVERE, null, ex);

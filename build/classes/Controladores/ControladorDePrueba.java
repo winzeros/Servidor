@@ -9,6 +9,7 @@ import Interfaces.EscuchadorEventoMensajeBD;
 import Protocolo.MensajeBD;
 import Protocolo.Respuesta;
 import Util.ListaEscuchadoresMsjBD;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import java.util.List;
  * @author ERWIN
  */
 public class ControladorDePrueba implements EscuchadorEventoMensajeBD{
+        private Gson gson=new Gson();
 
     @Override
     public void alRecibirPaqueteGuardar(EventoBD e) {
@@ -29,22 +31,26 @@ public class ControladorDePrueba implements EscuchadorEventoMensajeBD{
         String idUs=msj.getIdUsuario();
         String nomTab=msj.getNombreTabla();
         String consulta=msj.getConsulta();
+        String tipo=msj.getTipo();
         
-
+        if (nomTab.equals("Propietario")){
         List<Propietario> lista_prop=new ArrayList<Propietario>();
         
         //lista_prop=(ArrayList<Propietario>)msj.getListaObjetos();
         List<Object> ls = msj.getListaObjetos();
+        //Propietario p1=new Propietario();
+        //Propietario p2=new Propietario();
+        //Propietario p1=gson.fromJson(ls.get(0).toString(), Propietario.class);
+        //Propietario p2=gson.fromJson(ls.get(1).toString(), Propietario.class);
         
-        Propietario p1=(Propietario)ls.get(0);
-        Propietario p2=(Propietario)ls.get(1);
+        for (int i = 0; i < ls.size(); i++) {
+            lista_prop.add(gson.fromJson(ls.get(i).toString(), Propietario.class));
+        }
         
-        String tipo=msj.getTipo();
         
         System.out.println(idUs);
-        System.out.println(nomTab);
-        
-        System.out.println("Informacion de la lista de clientes");
+        System.out.println(nomTab);        
+        System.out.println("Informacion de la lista que acaba de llegar");
         
         for (int j = 0; j < lista_prop.size(); j++) {
             System.out.println(lista_prop.get(j).getCorreo());
@@ -59,9 +65,16 @@ public class ControladorDePrueba implements EscuchadorEventoMensajeBD{
 
         //Envio de Respuesta
         MensajeBD msjRBD=new MensajeBD(keyPort, idUs, nomTab, null, ""+Respuesta.MESAJE_CORRECTO);
-        EventoBD msjrespuestaBD=new EventoBD(this, msjRBD);
+        EventoBD msjrespuestaBD=new EventoBD(this, msjRBD);                        
         
         ListaEscuchadoresMsjBD.DispararOnRecibirPaqueteBD(msjrespuestaBD);
+        //FIN Envio de Respuesta
+        
+        System.out.println("SE GUARDO CORRECTAMENTE LAS TABLAS..");
+        
+        }
+        
+        
     }
 
     @Override

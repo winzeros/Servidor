@@ -252,15 +252,26 @@ public class Cliente extends Thread {
     
     }
     
+     public String getNombreClase(Object clase){
+        String nomCompleto=clase.getClass().getName();
+        int posPunto=nomCompleto.indexOf('.');        
+        return nomCompleto.substring(posPunto+1);
+    }
+    
     public  void GuardarPrueba(String nick){
     Date fecha= new Date(2014, 11, 9);
+    
     Propietario p1=new Propietario("erwin_plaza_x@hotmail.com", "Erwin Plaza",nick,"123" ,"2014-11-9" , "2014-11-9");
     Propietario p2=new Propietario("erwin.plaza.x@gmail.com", "Erwin",nick+"2","321" ,"2014" , "2014");
-    
+        String nombreTabla=getNombreClase(p1);
         List<Object> lista =new ArrayList<Object>();
         //lista.add("Esta es mi consulta");
-        lista.add(p1);
-        lista.add(p2);
+        
+        String jp1 = mGson.toJson(p1);
+        String jp2 = mGson.toJson(p2);
+        lista.add(nombreTabla);
+        lista.add(jp1);
+        lista.add(jp2);
     
     String data=mGson.toJson(lista);
     

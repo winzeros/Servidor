@@ -34,6 +34,10 @@ public class Propietario implements Serializable{
      public static void main(String[] Args){
      System.out.println(new Date(2014, 11, 9).toString());
      }
+
+    public Propietario() {
+        
+    }
      
     /**
      * @return the correo

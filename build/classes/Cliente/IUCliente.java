@@ -25,7 +25,7 @@ public class IUCliente extends javax.swing.JFrame implements WindowListener{
      */
     public IUCliente() {
         initComponents();
-        cliente = new Cliente("179.60.124.197", 9999,this);
+        cliente = new Cliente("179.60.121.249", 9999,this);
         cliente.start();
          //cliente.enviarNick("2");
        
